@@ -1,28 +1,20 @@
 import java.util.Scanner;
 
-public class ArrayQueue implements IQueue {
-    private Object[] queue;
-    private int MAXSIZE;
-    private int front;
-    private int rear;
-    private int size;
+public class LinkedListQueue implements IQueue {
+    private SingleLinkedList queue;
 
     public static void main(String[] args) {
-        ArrayQueue q = null;
+        LinkedListQueue q = new LinkedListQueue();
         try(Scanner sc = new Scanner(System.in)){
             String input = sc.nextLine().trim();
             if (!input.equals("[]")) {
                 String trimmed = input.substring(1, input.length() - 1);
                 String[] numStrings = trimmed.split(",");
-                
-                q = new ArrayQueue(numStrings.length + 1);
+
                 for (int i = numStrings.length - 1; i >= 0; i--) {
                     Integer number = Integer.parseInt(numStrings[i].trim());
                     q.enqueue(number);
                 }
-            }
-            else {
-                q = new ArrayQueue(1);
             }
 
             String command = sc.nextLine().trim();
@@ -50,29 +42,16 @@ public class ArrayQueue implements IQueue {
         }
     }
 
-    public ArrayQueue(int n) {
-        this.queue = new Object[n];
-        this.MAXSIZE = n;
-        this.front = 0;
-        this.rear = 0;
-        this.size = 0;
+    public LinkedListQueue() {
+        queue = new SingleLinkedList();
     }
-
     public Object front(){
-        if(this.isEmpty()){
-            throw new RuntimeException("Queue is empty");
-        }
-        return this.queue[front];
+        return this.queue.head.getData();
     }
 
     @Override
     public void enqueue(Object item) {
-        if (this.size() == MAXSIZE) {
-            throw new RuntimeException("Queue is full");
-        }
-        this.queue[rear] = item;
-        rear = (rear + 1) % MAXSIZE;
-        this.size++;
+        this.queue.add(item);
     }
 
     @Override
@@ -80,36 +59,30 @@ public class ArrayQueue implements IQueue {
         if (this.isEmpty()){
             throw new RuntimeException("Queue is empty");
         }
-        Object item = this.queue[front];
-        this.queue[front] = null;
-        front = (front + 1) % MAXSIZE;
-        this.size--;
+        Object item = this.queue.get(0);
+        this.queue.remove(0);
         return item;
     }
 
     @Override
     public boolean isEmpty() {
-        return front == rear;
+        return this.queue.isEmpty();
     }
 
     @Override
     public int size() {
-        return this.size;
+        return this.queue.size();
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        int count = 0;
-        int i = (rear - 1 + MAXSIZE) % MAXSIZE;
         sb.append("[");
-        while (count < size) {
-            if (count != 0){
+        for (int i = this.queue.size() - 1; i >= 0; i--) {
+            if (i != this.queue.size() - 1){
                 sb.append(", ");
             }
-            sb.append(this.queue[i]);
-            i = (i - 1 + MAXSIZE) % MAXSIZE;
-            count++;
+            sb.append(this.queue.get(i));
         }
         sb.append("]");
         return sb.toString();
