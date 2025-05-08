@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class ArrayQueue implements IQueue {
+public class ArrayQueue implements IQueue, IArrayBased {
     private Object[] queue;
     private int MAXSIZE;
     private int front;

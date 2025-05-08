@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class LinkedListQueue implements IQueue {
+public class LinkedListQueue implements IQueue, ILinkedBased {
     private SingleLinkedList queue;
 
     public static void main(String[] args) {
