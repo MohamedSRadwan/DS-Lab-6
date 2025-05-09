@@ -3,12 +3,37 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class UnitTest {
 
-/** testing linked list implementation
- * testing isEmpty, enqueue, size, dequeue, throwing error on dequeue on empty queue
- */
+    /** testing array implementation
+     * tests isEmpty when queue is empty
+     * enqueue beyond maximum size throws error
+     * dequeue
+     * size
+     * isEmpty when queue is full
+     */
+    @Test
+    public void testArrayQueueWithValidSize() {
+        ArrayQueue queue = new ArrayQueue(3);
+        assertTrue(queue.isEmpty());
+        queue.enqueue(10);
+        assertEquals(1, queue.size());
+        queue.enqueue(20);
+        queue.enqueue(30);
+        queue.enqueue(40);
+        assertEquals(4, queue.size());
+        assertFalse(queue.isEmpty());
+        assertThrows(RuntimeException.class, () -> queue.enqueue(50));
+    }
+
+    /** testing linked list implementation
+    * testing isEmpty
+    * enqueue
+    * size
+    * dequeue
+    * throwing error on dequeue on empty queue
+    */
     @Test
     public void testLinkedQueue() {
-        IQueue queue = new LinkedListQueue();
+        LinkedListQueue queue = new LinkedListQueue();
         assertTrue(queue.isEmpty());
         queue.enqueue(10);
         assertEquals(1, queue.size());
@@ -22,7 +47,7 @@ public class UnitTest {
      */
     @Test
     public void testArrayQueue() {
-        IQueue queue = new ArrayQueue(3);
+        ArrayQueue queue = new ArrayQueue(2);
         queue.enqueue("A");
         queue.enqueue("B");
         assertEquals(2, queue.size());

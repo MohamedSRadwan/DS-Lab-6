@@ -15,7 +15,7 @@ public class ArrayQueue implements IQueue, IArrayBased {
                 String trimmed = input.substring(1, input.length() - 1);
                 String[] numStrings = trimmed.split(",");
                 
-                q = new ArrayQueue(numStrings.length + 1);
+                q = new ArrayQueue(numStrings.length);
                 for (int i = numStrings.length - 1; i >= 0; i--) {
                     Integer number = Integer.parseInt(numStrings[i].trim());
                     q.enqueue(number);
@@ -51,8 +51,11 @@ public class ArrayQueue implements IQueue, IArrayBased {
     }
 
     public ArrayQueue(int n) {
-        this.queue = new Object[n];
-        this.MAXSIZE = n;
+        if (n < 0) {
+            throw new RuntimeException("invalid negative size");
+        }
+        this.queue = new Object[n + 1];
+        this.MAXSIZE = n + 1;
         this.front = 0;
         this.rear = 0;
         this.size = 0;
@@ -89,7 +92,7 @@ public class ArrayQueue implements IQueue, IArrayBased {
 
     @Override
     public boolean isEmpty() {
-        return front == rear;
+        return this.size == 0;
     }
 
     @Override
